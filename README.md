@@ -125,3 +125,61 @@ python3 prayer_widget.py --shot out.png --at 17:12 --size 450x410
 - Disable compositing again with:
   `xfconf-query -c xfwm4 -p /general/use_compositing -s false`
 - Sunrise is listed but not counted in the countdown (it is not a prayer).
+
+## Installation
+
+### Prerequisites
+
+- XFCE desktop (tested on XFCE 4.14+/5.x)
+- GTK3 runtime and Cairo graphics (available on Kali/Ubuntu by default)
+- Python 3 with PyGObject bindings:
+
+```sh
+pip install pygobject cairo pango
+```
+
+- Optionally `xfce4-notifyd` for desktop popups (included on XFCE by default)
+
+### Getting the widget
+
+The widget lives at:
+
+```sh
+/git clone https://github.com/Usman0220/prayer-widget.git
+# or download the script bundle from the GitHub repository
+```
+
+### Running the widget
+
+```sh
+# 1. Install (one-time):
+cd prayer-widget
+./setup_all.sh       # creates config, cache, autostart, checks deps
+
+# 2. Start the widget:
+./restart.sh         # start now
+./run.sh             # start on login (single instance)
+
+# 3. Or run directly:
+python3 prayer_widget.py
+```
+
+### First run
+
+On first start the widget:
+1. Detects your location via IP geolocation (`ipwho.is`, falling back to `ip-api.com`)
+2. Fetches prayer times for those coordinates
+3. Stores the config in `~/.config/prayer-widget/config.json`
+4. Shows the card on your desktop
+
+To change city or reconfigure, right‑click the widget → **Settings** → **Select city…**
+or right‑click → **Notifications** to toggle popups/sound/reminder.
+
+### Commands
+
+```sh
+./restart.sh                                  # apply code/config changes
+python3 prayer_widget.py --check              # print today's times, no GUI
+python3 prayer_widget.py --shot out.png       # render the card offscreen
+python3 prayer_widget.py --shot out.png --at 17:12 --size 450x410
+```
