@@ -1415,7 +1415,9 @@ class PrayerWidget(Gtk.Window):
                 prev_dt = next_dt - timedelta(hours=8)
         span = max(1.0, (next_dt - prev_dt).total_seconds())
         frac = min(1.0, max(0.0, (now - prev_dt).total_seconds() / span))
-        self.bar(cr, pad, y, w - 2 * pad, max(2.5, 3.5 * k), frac)
+        # Invert so the bar shows "time left": full at window start, empty before next prayer
+        bar_frac = 1.0 - frac
+        self.bar(cr, pad, y, w - 2 * pad, max(2.5, 3.5 * k), bar_frac)
         y += 18 * k
 
         # forbidden window that is running right now gets a loud amber strip
